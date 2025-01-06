@@ -1,0 +1,6 @@
+sponsorship_detecting_task:
+  description: >
+    Analyze {description} to identify and highlight any potential sponsorship content.
+  expected_output: >
+    The name of the sponsored brand in oe word.
+  agent: sponsorship_detector
