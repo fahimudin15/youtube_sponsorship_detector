@@ -1,0 +1,30 @@
+{
+  "name": "youtube_sponsorship_detector",
+  "version": "1.0.0",
+  "description": "This project is designed to detect sponsorships in YouTube video descriptions. It uses the YouTube Data API to fetch video details and processes the descriptions to identify sponsorships.",
+  "main": "VideoForm.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fahimudin15/youtube_sponsorship_detector.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fahimudin15/youtube_sponsorship_detector/issues"
+  },
+  "homepage": "https://github.com/fahimudin15/youtube_sponsorship_detector#readme",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "js-yaml": "^4.1.0",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

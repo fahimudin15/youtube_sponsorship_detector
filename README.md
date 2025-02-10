@@ -8,13 +8,15 @@ This project is designed to detect sponsorships in YouTube video descriptions. I
 - `youtube.py`: Contains the `YouTubeAPI` class for interacting with the YouTube Data API.
 - `dataclass/Publication.py`: Contains the `Publication` data class for handling YouTube publication data.
 - `dataclass/detector.py`: Contains the `YoutubeSponsorshipDetector` class for processing and detecting sponsorships.
-
+- `pages/`: Contains the Next.js frontend application.
+- `VideoForm.js`: Contains the React component for the video URL submission form.
+- `pages/api/check-sponsorship.js`: Contains the API endpoint for checking sponsorships in video descriptions.
 
 ## Setup
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/munir-moh/youtube_sponsorship_detector.git
+    git clone https://github.com/fahimudin15/youtube_sponsorship_detector.git
     cd youtube_sponsorship_detector
     ```
 
@@ -37,14 +39,26 @@ This project is designed to detect sponsorships in YouTube video descriptions. I
     YOUTUBE_API_KEY=your_youtube_api_key_here
     ```
 
-## Running the Application
+Replace `your_youtube_api_key_here` with your actual YouTube API key.
 
-1. Start the Flask application:
+## Running the Project
+
+6. Navigate to the project directory:
     ```bash
-    python app.py
+    cd youtube_sponsorship_detector
     ```
 
-2. The application will be available at `http://127.0.0.1:5000`.
+7. Install the required dependencies:
+    ```bash
+    npm install
+    ```
+
+8. Start the Next.js development server:
+    ```bash
+    npm run dev
+    ```
+
+9. The frontend application will be available at `http://localhost:3000`.
 
 ## Endpoints
 
@@ -52,6 +66,7 @@ This project is designed to detect sponsorships in YouTube video descriptions. I
 - `GET /channels`: Endpoint to confirm channel subscription.
 - `POST /channels`: Endpoint to detect publication and process the description.
 - `GET /youtube-publications`: Endpoint to fetch YouTube video details by publication IDs.
+- `POST /api/check-sponsorship`: API endpoint to check for sponsorships in video descriptions.
 
 ## Example Usage
 
