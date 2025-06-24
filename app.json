@@ -1,0 +1,41 @@
+{
+  "name": "YouTube Sponsorship Detector",
+  "description": "A service to detect sponsorships in YouTube videos",
+  "keywords": ["youtube", "sponsorship", "api", "fastapi"],
+  "repository": "https://github.com/yourusername/youtube_sponsorship_detector",
+  "success_url": "/docs",
+  "env": {
+    "PYTHONUNBUFFERED": {
+      "description": "Enable unbuffered logging",
+      "value": "true"
+    },
+    "PYTHONPATH": {
+      "description": "Python path",
+      "value": "/app"
+    },
+    "ENVIRONMENT": {
+      "description": "Application environment (production/staging/development)",
+      "value": "production"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "as": "DATABASE"
+    },
+    {
+      "plan": "heroku-redis:hobby-dev"
+    }
+  ]
+}

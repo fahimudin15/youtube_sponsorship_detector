@@ -4,6 +4,8 @@ import uvicorn
 import hashlib
 import hmac
 import os
+import json
+import time
 from dotenv import load_dotenv
 from .data_collector import DataCollector
 from .analyzer import VideoAnalyzer
@@ -16,7 +18,14 @@ app = FastAPI(title="YouTube Sponsorship Detector")
 data_collector = DataCollector()
 video_analyzer = VideoAnalyzer(model_path=os.getenv('MODEL_PATH'))
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(message)s',
+    handlers=[
+        logging.StreamHandler(),
+        logging.FileHandler(os.path.join('data', 'processed', 'app.log'))
+    ]
+)
 logger = logging.getLogger(__name__)
 
 class YouTubeNotification(BaseModel):
@@ -57,6 +66,10 @@ async def webhook_receiver(request: Request):
     body = await request.body()
     signature = request.headers.get('X-Hub-Signature')
     
+    # Log incoming webhook
+    logger.info(f"Received webhook notification. Headers: {dict(request.headers)}")
+    logger.info(f"Webhook body: {body.decode()}")
+    
     # Verify the signature if provided
     if signature:
         expected_sig = hmac.new(
@@ -65,13 +78,28 @@ async def webhook_receiver(request: Request):
             hashlib.sha1
         ).hexdigest()
         if signature != f"sha1={expected_sig}":
+            logger.warning(f"Invalid signature received: {signature}")
             return Response(status_code=status.HTTP_403_FORBIDDEN)
     
     # Process the notification
     video_id = data_collector.process_notification(body)
     if video_id:
+        logger.info(f"Processing new video: {video_id}")
+        # Store notification in data directory
+        notification_path = os.path.join('data', 'processed', f'notification_{video_id}_{int(time.time())}.json')
+        os.makedirs(os.path.dirname(notification_path), exist_ok=True)
+        with open(notification_path, 'w') as f:
+            json.dump({
+                'timestamp': time.time(),
+                'video_id': video_id,
+                'body': body.decode()
+            }, f, indent=2)
+        
         # Process the video data
         data_collector.process_video_data(video_id)
+        logger.info(f"Successfully processed video {video_id}")
+    else:
+        logger.warning("Could not extract video_id from notification")
     
     return Response(status_code=status.HTTP_200_OK)
 
